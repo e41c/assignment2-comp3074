@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+// App.js
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import MainScreen from './screens/MainScreen';
+import AboutScreen from './screens/AboutScreen';
+import Icon from 'react-native-vector-icons/Feather';
+
+const Tab = createBottomTabNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+            if (route.name === 'Main') {
+              iconName = 'home';
+            } else if (route.name === 'About') {
+              iconName = 'info';
+            }
+
+            // You can return any component here that you like
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'blue',
+          inactiveTintColor: 'gray',
+        }}
+      >
+        <Tab.Screen name="Main" component={MainScreen} />
+        <Tab.Screen name="About" component={AboutScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
